@@ -1,6 +1,7 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = (options) => {
@@ -32,7 +33,7 @@ module.exports = (options) => {
         },
         {
           test: /\.css$/,
-          use: ['style-loader', 'css-loader'],
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
       ],
     },
@@ -44,6 +45,9 @@ module.exports = (options) => {
     plugins: [
       isEnvProduction && new CleanWebpackPlugin(),
       new VueLoaderPlugin(),
+      new MiniCssExtractPlugin({
+        filename: 'css/[name].css',
+      }),
       new HtmlWebpackPlugin({
         template: 'src/index.template.html',
       }),
